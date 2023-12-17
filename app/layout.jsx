@@ -6,7 +6,7 @@ import Footer from "@/components/global/footer";
 
 const notoSansKorean = Noto_Sans_KR({
   weight: 200,
-  preload: true,
+  preload: false,
 });
 
 export default function RootLayout({ children }) {

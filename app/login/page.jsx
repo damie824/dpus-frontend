@@ -53,7 +53,6 @@ export default function Login() {
         )
         .then((r) => {
           if (r.statusCode !== 200) {
-            console.log(r);
             throw new Error("Login failed");
           }
           setLogin(true);

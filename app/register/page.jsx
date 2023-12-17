@@ -1,39 +1,147 @@
 "use client";
 
-import Link from "next/link";
 import "@/styles/util/login/register.scss";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import JSConfetti from "js-confetti";
 import axios from "axios";
 import process from "next/dist/build/webpack/loaders/resolve-url-loader/lib/postcss";
+import { DpusReq } from "@/util/dpus-apis";
 
 export default function Register() {
+  // 상태를 관리하는 useState 훅들입니다.
   const [index, setIndex] = useState(0);
   const [email, setEmail] = useState("");
-  const [registeData, setRegisterData] = useState({
+  const [isEmailSended, setEmailSended] = useState(false);
+  const [isEmailVerified, setEmailVerified] = useState(false);
+  const [verifyCode, setVerifyCode] = useState("");
+  const [registerData, setRegisterData] = useState({
     username: "",
     email: "",
     password: "",
   });
+
+  const dpusReq = new DpusReq();
+
+  useEffect(() => {
+    async function prepare() {
+      const loginInfo = await dpusReq.isLogin();
+      if (loginInfo.isLoggined) {
+        window.location.href = "/";
+      }
+    }
+    prepare();
+  }, []);
+
+  // 다음 페이지로 이동하는 함수입니다.
   const nextPage = () => {
     setIndex(index + 1);
   };
 
-  function SendEmail() {
+  // 이메일을 보내는 함수입니다.
+  async function SendEmail() {
+    // 이메일이 입력되지 않았다면 에러 메시지를 표시합니다.
     if (email === "") {
-      alert("이메일을 입력해주셔야 합니다.");
+      toast.error("이메일을 입력해주셔야 합니다.");
+      return;
     }
-    axios.post(process.env.FRONTURL + "/get-code", {
-      email,
-    });
-    const checkButton = document.querySelector("#verify");
-    const sendButton = document.querySelector("#send-email");
 
-    checkButton.attributes.removeNamedItem("disabled");
-    sendButton.attributes.getNamedItem("disabled");
+    // 이메일을 보내는 요청을 보냅니다.
+    await toast.promise(
+      axios.post(
+        process.env.NEXT_PUBLIC_BACKEND_URL + "/mail/get-code",
+        {
+          email,
+        },
+        {
+          withCredentials: true,
+        }
+      ),
+      {
+        loading: "메일을 보내고 있어요..",
+        success: "메일을 전송했어요!",
+        error: "메일 전송에 실패했어요. 잠시 후 다시 시도해 주세요.",
+      }
+    );
+
+    // 이메일이 성공적으로 보내졌음을 표시합니다.
+    setEmailSended(true);
   }
 
+  // 이메일을 인증하는 함수입니다.
+  async function verifyEmail() {
+    // 인증번호가 입력되지 않았다면 에러 메시지를 표시합니다.
+    if (verifyCode === "") {
+      toast.error("인증번호를 입력해 주셔야 합니다.");
+      return;
+    }
+
+    // 이메일 인증 요청을 보냅니다.
+    await toast.promise(
+      axios
+        .post(
+          process.env.NEXT_PUBLIC_BACKEND_URL + "/mail/verify",
+          {
+            email,
+            code: verifyCode.toString(),
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => {
+          // 인증 코드가 일치하지 않는다면 에러를 던집니다.
+          if (r.statusText !== "OK") {
+            throw new Error("Code not matched");
+          }
+
+          // 인증이 성공적으로 이루어졌음을 표시하고, 이메일을 등록 데이터에 추가합니다.
+          setRegisterData({ ...registerData, email: email });
+          setEmailVerified(true);
+        }),
+      {
+        success: "인증 작업을 완료했어요!",
+        loading: "인증 작업을 진행하고 있어요..",
+        error: "인증에 실패했어요. 코드를 확인하고 잠시 후 다시 시도해 주세요.",
+      }
+    );
+  }
+
+  // 회원가입을 진행하는 함수입니다.
+  async function register() {
+    // 등록 데이터를 콘솔에 출력합니다.
+    console.log(registerData);
+
+    // 회원가입 요청을 보냅니다.
+    await toast.promise(
+      axios
+        .post(
+          process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/register",
+          {
+            ...registerData,
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => {
+          // 회원가입이 성공적으로 이루어지지 않았다면 에러를 던집니다.
+          if (res.status !== 201) {
+            throw new Error("회원가입에 실패했어요.");
+          }
+
+          // 회원가입이 성공적으로 이루어졌음을 표시합니다.
+          setIndex(2);
+        }),
+      {
+        loading: "회원가입을 진행하고 있어요..",
+        success: "회원가입을 완료했어요!",
+        error: "에러가 발생했어요. 잠시 후 다시 시도해 주세요.",
+      }
+    );
+  }
+
+  // 컴포넌트를 렌더링합니다.
   return (
     <div className="register-container">
       {index === 0 ? (
@@ -45,23 +153,51 @@ export default function Register() {
           <div className="register-form">
             <label>이메일</label>
             <div className="register-inputs">
-              <input type="email" placeholder="이메일을 입력해 주세요." />
-              <button id="send-email">인증하기</button>
+              <input
+                id="send-email-input"
+                type="email"
+                placeholder="이메일을 입력해 주세요."
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+                disabled={isEmailSended}
+              />
+              <button
+                id="send-email"
+                onClick={SendEmail}
+                disabled={isEmailSended}
+              >
+                인증하기
+              </button>
             </div>
             <label>인증번호</label>
             <div className="register-inputs">
-              <input type="text" placeholder="인증 번호를 입력해 주세요." />
-              <button id="verify" disabled>
+              <input
+                id="verify-input"
+                type="text"
+                placeholder="인증 번호를 입력해 주세요."
+                onChange={(e) => {
+                  setVerifyCode(e.target.value);
+                }}
+                disabled={!isEmailSended || isEmailVerified}
+              />
+              <button
+                id="verify"
+                onClick={verifyEmail}
+                disabled={!isEmailSended || isEmailVerified}
+              >
                 확인
               </button>
             </div>
             <button
-              id="next-button"
+              id="next-button-first"
               onClick={() => {
+                if (!isEmailVerified) {
+                  return;
+                }
                 nextPage();
-                toast.success("작동했어요!");
               }}
-              disabled
+              disabled={!(isEmailSended && isEmailVerified)}
             >
               다음으로 (1/2)
             </button>
@@ -77,20 +213,40 @@ export default function Register() {
             <p>당신의 자세한 정보들을 알려주세요!</p>
           </div>
           <div className="register-form">
-            <label>학번</label>
-            <input type="email" placeholder="학번을 입력해 주세요." />
             <label>이름</label>
             <input
-              type="password"
               placeholder="이름을 입력해 주세요. 실명이 아니어도 좋아요!"
+              onChange={(e) => {
+                if (e.target.value === "") {
+                  return;
+                }
+                setRegisterData({
+                  ...registerData,
+                  username: e.target.value,
+                });
+              }}
             />
             <label>비밀번호</label>
-            <input type="password" placeholder="비밀번호를 입력해 주세요." />
-            <button
-              onClick={() => {
-                toast.success("작동했어요!");
-                nextPage();
+            <input
+              type="password"
+              placeholder="비밀번호를 입력해 주세요."
+              onChange={(e) => {
+                if (e.target.value === "") {
+                  return;
+                }
+                setRegisterData({
+                  ...registerData,
+                  password: e.target.value,
+                });
               }}
+            />
+            <button
+              onClick={register}
+              disabled={
+                registerData.email === "" ||
+                registerData.password === "" ||
+                registerData.username === ""
+              }
             >
               완료하기 (2/2)
             </button>
@@ -104,7 +260,9 @@ export default function Register() {
   );
 }
 
+// 회원가입이 완료된 후 보여지는 컴포넌트입니다.
 function DoneRegister() {
+  // 컴포넌트가 마운트될 때, 컨페티 애니메이션을 실행합니다.
   useEffect(() => {
     const jsConfetti = new JSConfetti();
 
@@ -120,6 +278,7 @@ function DoneRegister() {
     });
   }, []);
 
+  // 컴포넌트를 렌더링합니다.
   return (
     <div className="title">
       <h2>회원가입을 완료했어요!</h2>

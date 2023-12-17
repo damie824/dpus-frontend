@@ -1,0 +1,53 @@
+.swiper-container {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 55px;
+  transition: background-color 0.3s ease-in-out;
+  display: flex;
+  justify-content: center;
+}
+
+.swiper-body {
+  width: 100%;
+  max-width: 900px;
+}
+
+.swiper-main {
+  transition: background-color 0.3s ease-in-out;
+}
+
+.swiper-bg {
+  img {
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  h2 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 20px;
+  }
+  p {
+    opacity: 80%;
+  }
+  width: 100%;
+  color: white;
+  padding: 40px;
+  user-select: none;
+  text-decoration: none;
+}
+
+.swiper-text {
+  h2 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 20px;
+  }
+  p {
+    opacity: 80%;
+  }
+  color: white;
+  text-decoration: none;
+}

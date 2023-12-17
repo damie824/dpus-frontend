@@ -1,14 +1,4 @@
 @import "./theme.scss";
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200;400;700&family=Poppins:wght@300;700&display=swap");
-
-* {
-  font-family: "Noto Sans KR", sans-serif;
-  font-weight: 400;
-}
-
-button {
-  font-family: "Noto Sans KR", sans-serif;
-}
 
 body {
   width: 100%;
@@ -20,6 +10,10 @@ body {
 h1 {
   font-weight: 700;
   font-size: 20px;
+}
+
+button {
+  font-family: inherit;
 }
 
 .body {

@@ -90,8 +90,9 @@ export default function Register() {
           }
         )
         .then((res) => {
+          console.log(res);
           // 인증 코드가 일치하지 않는다면 에러를 던집니다.
-          if (res.status !== 200) {
+          if (res.status !== 201) {
             throw new Error("Code not matched");
           }
 

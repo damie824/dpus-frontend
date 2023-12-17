@@ -11,22 +11,24 @@ const notoSansKorean = Noto_Sans_KR({
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={notoSansKorean.className}>
-        <Header />
-        <div className="body ">
-          <Toaster
-            position={"top-center"}
-            containerStyle={{
-              margin: "0 auto",
-              marginTop: "30px",
-              maxWidth: "900px",
-            }}
-          />
-          {children}
-        </div>
-        <Footer />
-      </body>
-    </html>
+    <>
+      <html lang="ko-KR">
+        <body className={notoSansKorean.className}>
+          <Header />
+          <div className="body ">
+            <Toaster
+              position={"top-center"}
+              containerStyle={{
+                margin: "0 auto",
+                marginTop: "30px",
+                maxWidth: "900px",
+              }}
+            />
+            {children}
+          </div>
+          <Footer />
+        </body>
+      </html>
+    </>
   );
 }

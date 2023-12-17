@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast";
 import Footer from "@/components/global/footer";
 
 const notoSansKorean = Noto_Sans_KR({
-  weight: 200,
+  weight: ["200", "300", "700"],
   preload: false,
 });
 

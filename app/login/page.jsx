@@ -52,7 +52,7 @@ export default function Login() {
           }
         )
         .then((r) => {
-          if (r.statusCode !== 200) {
+          if (r.status !== 200) {
             throw new Error("Login failed");
           }
           setLogin(true);

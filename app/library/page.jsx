@@ -1,3 +1,8 @@
+export const metadata = {
+  title: "자료실 - DPUS",
+  description: "대평고등학교의 학생들에게 유용할 만 한 자료들을 모았어요.",
+};
+
 export default function Library() {
   return (
     <div>

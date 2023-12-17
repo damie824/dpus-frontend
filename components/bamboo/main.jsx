@@ -81,7 +81,7 @@ export default function BambooMain() {
             })}
             {pageCounts === 8 ? (
               <button className="load-more" onClick={loadMoreBamboos}>
-                개시글 더 불러오기
+                게시글 더 불러오기
               </button>
             ) : (
               <p className="no-more">더 이상 불러올 글이 없어요!</p>

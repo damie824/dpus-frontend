@@ -1,3 +1,8 @@
+export const metadata = {
+  title: "성적 관리소 - DPUS",
+  description: "언젠가 밝은 빛을 내게 될 당신을 위해",
+};
+
 export default function Records() {
   return (
     <div>

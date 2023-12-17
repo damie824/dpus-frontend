@@ -91,7 +91,7 @@ export default function Register() {
         )
         .then((res) => {
           // 인증 코드가 일치하지 않는다면 에러를 던집니다.
-          if (r.statusText !== "OK") {
+          if (res.status !== 200) {
             throw new Error("Code not matched");
           }
 

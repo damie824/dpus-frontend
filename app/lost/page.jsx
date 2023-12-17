@@ -1,3 +1,8 @@
+export const metadata = {
+  title: "분실물 관리소 - DPUS",
+  description: "잃어버린 물건이 있으신가요?",
+};
+
 export default function Lost() {
   return (
     <div>

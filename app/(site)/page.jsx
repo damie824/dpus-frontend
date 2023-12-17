@@ -11,7 +11,11 @@ export default function Home() {
     <main>
       <div className="notice"></div>
       <HomeSwiper />
-      <h2>//여기에 내용이 추가됩니다//</h2>
+      <h2>📦 제 물건 좀 찾아주세요!</h2>
+      <h2>🔥 이번 주 커뮤니티 인기 개시글</h2>
+      <h2>🎍 이번 주 대나무숲 인기 개시글</h2>
+      <h2>이번 주 커뮤니티 인기 개시글 🔥🔥</h2>
+      <h2>이번 주 커뮤니티 인기 개시글 🔥🔥</h2>
     </main>
   );
 }

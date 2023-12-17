@@ -1,15 +1,18 @@
-import { Inter } from "next/font/google";
+import { Noto_Sans_KR } from "next/font/google";
 import "@/styles/global/global.scss";
 import Header from "@/components/global/header";
 import { Toaster } from "react-hot-toast";
 import Footer from "@/components/global/footer";
 
-const inter = Inter({ subsets: ["latin"] });
+const notoSansKorean = Noto_Sans_KR({
+  weight: 200,
+  preload: true,
+});
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={notoSansKorean.className}>
         <Header />
         <div className="body ">
           <Toaster

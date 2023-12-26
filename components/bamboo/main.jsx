@@ -21,7 +21,7 @@ export default function BambooMain() {
     async function prepare() {
       try {
         console.log("Loading bamboos..");
-        const response = await dpusReq.get("/bamboo/0");
+        const response = await dpusReq.get("/bamboo/get/0");
         console.log(response.data);
         setBambooData(response.data);
         setPageCounts(response.data.length);
@@ -41,7 +41,7 @@ export default function BambooMain() {
   async function loadMoreBamboos() {
     try {
       console.log("Loading bamboos..");
-      const response = await dpusReq.get(`/bamboo/${currentPage}`);
+      const response = await dpusReq.get(`/bamboo/get/${currentPage}`);
       console.log(response.data);
       setBambooData([...bambooData, ...response.data]);
       setCurrentPage(currentPage + 1);

@@ -51,3 +51,70 @@
   color: white;
   text-decoration: none;
 }
+
+.home-bamboo-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+.home-bamboo-loading {
+  background-color: rgb(231, 231, 231);
+  animation: loading 1.5s infinite ease-in-out;
+}
+
+.home-bamboo {
+  h2 {
+    margin: 0;
+    font-size: 18px;
+  }
+  p {
+    margin: 0;
+    margin-top: 5px;
+  }
+  width: 43%;
+  height: 100px;
+  background-color: rgba(244, 244, 244, 0.605);
+  margin-bottom: 20px;
+  border-radius: 10px;
+  padding: 20px;
+  color: black;
+  text-decoration: none;
+  position: relative;
+}
+
+.bamboo-date {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+@media screen and (max-width: 900px) {
+  .home-bamboo-container {
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .home-bamboo {
+    width: 100%;
+    height: 100px;
+  }
+}
+
+@keyframes loading {
+  0% {
+    opacity: 100%;
+  }
+
+  50% {
+    opacity: 50%;
+  }
+
+  100% {
+    opacity: 100%;
+  }
+}

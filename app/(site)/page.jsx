@@ -1,3 +1,4 @@
+import HomeBamboo from "@/components/home/bamboo";
 import HomeSwiper from "@/components/home/swiper";
 import "@/styles/home/home.scss";
 
@@ -12,8 +13,9 @@ export default function Home() {
       <div className="notice"></div>
       <HomeSwiper />
       <h2>📦 제 물건 좀 찾아주세요!</h2>
-      <h2>🔥 이번 주 커뮤니티 인기 개시글</h2>
-      <h2>🎍 이번 주 대나무숲 인기 개시글</h2>
+      <h2>🔥 이번 주 커뮤니티 인기 게시글</h2>
+      <h2>🎍 이번 주 대나무숲 인기 게시글</h2>
+      <HomeBamboo />
     </main>
   );
 }

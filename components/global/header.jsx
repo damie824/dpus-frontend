@@ -33,7 +33,7 @@ export default function Header() {
 
     const header = document.querySelector(".header-container");
     document.addEventListener("scroll", (e) => {
-      if (window.scrollY >= 30) {
+      if (window.scrollY > 0) {
         header.classList.add("header-scrolled");
       } else {
         header.classList.remove("header-scrolled");
